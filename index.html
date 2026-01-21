@@ -1,238 +1,306 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Distribuição de Aulas 2026 — Resolução 7.200/2025</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Completo - Distribuição de Aulas 2026</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c3e50; --secondary: #34495e; --accent: #2980b9;
+            --highlight: #f39c12; --bg: #f8f9fa; --text: #2c3e50;
+            --white: #ffffff; --border: #dee2e6;
+        }
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0; line-height: 1.6;
+        }
 
-<style>
-:root {
-  --primary:#2c3e50;
-  --accent:#2980b9;
-  --bg:#f4f6f8;
-  --white:#ffffff;
-  --border:#dcdde1;
-  --highlight:#f39c12;
-}
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white; padding: 2rem 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
 
-body {
-  margin:0;
-  font-family: 'Segoe UI', system-ui, sans-serif;
-  background:var(--bg);
-  color:#2c3e50;
-  line-height:1.6;
-}
+        .btn-drive {
+            background: rgba(255,255,255,0.2);
+            color: white; padding: 10px 20px; border-radius: 50px;
+            text-decoration: none; font-weight: bold; border: 1px solid white;
+            transition: 0.3s;
+        }
+        .btn-drive:hover { background: white; color: var(--primary); }
 
-header {
-  background:linear-gradient(135deg,var(--primary),var(--accent));
-  color:white;
-  padding:2rem;
-}
+        .container { max-width: 1100px; margin: 20px auto; padding: 0 20px; }
 
-header h1 { margin:0; }
-header small { opacity:.9; }
+        /* Glossário e Regras Gerais */
+        .grid-cards {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px; margin-bottom: 30px;
+        }
+        .card {
+            background: var(--white); padding: 20px; border-radius: 12px;
+            border-left: 5px solid var(--accent); box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .card h3 { margin-top: 0; color: var(--accent); font-size: 1.1rem; }
 
-.container {
-  max-width:1100px;
-  margin:30px auto;
-  padding:0 20px;
-}
+        /* Abas */
+        .tabs-nav {
+            display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;
+            position: sticky; top: 10px; z-index: 100;
+        }
+        .tab-btn {
+            padding: 12px 25px; border: none; border-radius: 8px;
+            background: #ddd; cursor: pointer; font-weight: bold; transition: 0.3s;
+        }
+        .tab-btn.active { background: var(--accent); color: white; }
 
-.tabs-nav {
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-bottom:20px;
-}
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
 
-.tab-btn {
-  padding:12px 20px;
-  border:none;
-  border-radius:8px;
-  background:#ddd;
-  cursor:pointer;
-  font-weight:600;
-}
+        /* Acordeões */
+        .accordion { margin-bottom: 10px; border-radius: 8px; overflow: hidden; background: white; }
+        .acc-header {
+            background: #fff; padding: 15px 20px; cursor: pointer;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #eee; font-weight: 600;
+        }
+        .acc-header:hover { background: #f1f1f1; }
+        .acc-body { 
+            display: none; padding: 20px; border-top: 1px solid #eee; 
+            background: #fafafa;
+        }
+        .acc-header i { transition: 0.3s; }
+        .acc-header.active i { transform: rotate(180deg); }
 
-.tab-btn.active {
-  background:var(--accent);
-  color:white;
-}
+        /* Estilo de Texto Interno */
+        ul { padding-left: 20px; }
+        li { margin-bottom: 10px; }
+        .art-ref { font-weight: bold; color: #e67e22; }
+        .important-box { 
+            background: #fff3cd; border: 1px solid #ffeeba; 
+            padding: 15px; border-radius: 8px; margin: 10px 0; 
+        }
 
-.tab-content { display:none; }
-.tab-content.active { display:block; }
-
-/* Cards resumo */
-.grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:20px;
-}
-
-.card {
-  background:white;
-  padding:20px;
-  border-radius:12px;
-  border-left:5px solid var(--accent);
-}
-
-/* Acordeões */
-.accordion {
-  background:white;
-  border-radius:10px;
-  margin-bottom:10px;
-  overflow:hidden;
-}
-
-.acc-header {
-  padding:15px 20px;
-  cursor:pointer;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  font-weight:600;
-}
-
-.acc-header:hover { background:#f1f1f1; }
-
-.acc-body {
-  display:none;
-  padding:20px;
-  background:#fafafa;
-  border-top:1px solid var(--border);
-}
-
-/* Texto legal */
-.artigo {
-  background:white;
-  border-left:4px solid var(--highlight);
-  padding:20px;
-  margin-bottom:15px;
-  border-radius:6px;
-}
-
-.artigo h4 {
-  margin-top:0;
-  color:#e67e22;
-}
-
-.inciso { margin-left:20px; }
-.paragrafo { margin-left:15px; font-style:italic; }
-
-footer {
-  text-align:center;
-  padding:20px;
-  font-size:.85rem;
-  color:#777;
-}
-</style>
+        @media (max-width: 768px) {
+            header { flex-direction: column; text-align: center; gap: 15px; }
+            .tabs-nav { flex-direction: column; }
+        }
+    </style>
 </head>
-
 <body>
 
 <header>
-  <h1>Distribuição de Aulas 2026</h1>
-  <small>Resolução nº 7.200/2025 – GS/SEED</small>
+    <div>
+        <h1 style="margin:0">Distribuição de Aulas 2026</h1>
+        <small>Resolução n.º 7.200/2025 - GS/SEED</small>
+    </div>
+    <a href="https://drive.google.com/drive/folders/1gK86SgqnUNVuLJBfCbTtBiJHZ1vYH6NG?usp=sharing" target="_blank" class="btn-drive">
+        <i class="fas fa-file-pdf"></i> Documentos Oficiais
+    </a>
 </header>
 
 <div class="container">
 
-<!-- NAVEGAÇÃO -->
-<div class="tabs-nav">
-  <button class="tab-btn active" onclick="openTab(event,'visao')">Visão Geral</button>
-  <button class="tab-btn" onclick="openTab(event,'regras')">Regras e Prioridades</button>
-  <button class="tab-btn" onclick="openTab(event,'texto')">Texto Legal na Íntegra</button>
-  <button class="tab-btn" onclick="openTab(event,'docs')">Documentos Oficiais</button>
-</div>
-
-<!-- VISÃO GERAL -->
-<div id="visao" class="tab-content active">
-  <div class="grid">
-    <div class="card">
-      <h3>Cargas Horárias</h3>
-      <p>Aulas, extraordinárias e acréscimo de jornada conforme matriz curricular.</p>
+    <h2 style="border-bottom: 2px solid var(--accent); padding-bottom: 10px;">
+        <i class="fas fa-info-circle"></i> 1. Conceitos Fundamentais (Art. 3º)
+    </h2>
+    <div class="grid-cards">
+        <div class="card">
+            <h3>Cargas Horárias</h3>
+            <p><strong>Aulas:</strong> Geradas por turmas e matriz curricular.<br>
+            <strong>Extraordinárias:</strong> Regência eventual após completar o cargo (QPM/QUP).<br>
+            <strong>Acréscimo de Jornada:</strong> Funções eventuais após completar o cargo.</p>
+        </div>
+        <div class="card">
+            <h3>Estrutura</h3>
+            <p><strong>Componente Curricular:</strong> Disciplina do concurso (competências e habilidades).<br>
+            <strong>Unidade Curricular:</strong> Conhecimentos técnicos (CNCT) ligados à formação profissional.</p>
+        </div>
+        <div class="card">
+            <h3>Gestão</h3>
+            <p><strong>Deveres do Diretor:</strong> Atribuir aulas a efetivos não excedentes, divulgar vagas, realizar sessões públicas e cumprir ordens de classificação.</p>
+        </div>
     </div>
-    <div class="card">
-      <h3>Ordem de Atribuição</h3>
-      <p>Efetivos não excedentes → Excedentes → Suprimento → PSS.</p>
+
+    <h2 style="border-bottom: 2px solid var(--accent); padding-bottom: 10px;">
+        <i class="fas fa-gavel"></i> 2. Regras de Carga Horária e Sessão (Art. 4º a 11)
+    </h2>
+    <div class="important-box">
+        <strong>Limites Máximos (Art. 11):</strong><br>
+        * Turnos Manhã/Tarde: 24 aulas + Horas-Atividade (Máx 40h total).<br>
+        * Turno Noite: 19 aulas + Horas-Atividade (Máx 40h total).
     </div>
-    <div class="card">
-      <h3>Limites</h3>
-      <p>Máximo de 40h semanais, respeitando turno e horas-atividade.</p>
+
+    <div class="tabs-nav">
+        <button class="tab-btn active" onclick="openTab(event, 'prioridades')">Classificação & Prioridades</button>
+        <button class="tab-btn" onclick="openTab(event, 'programas')">Programas (Integral/Cívico)</button>
+        <button class="tab-btn" onclick="openTab(event, 'especificas')">Disciplinas Específicas</button>
+        <button class="tab-btn" onclick="openTab(event, 'tecnico')">Profissional & Robótica</button>
     </div>
-  </div>
+
+    <div id="prioridades" class="tab-content active">
+        <div class="accordion">
+            <div class="acc-header" onclick="toggleAcc(this)">
+                <span>Ordem de Atribuição (Art. 13 a 21)</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="acc-body">
+                <ul>
+                    <li><strong>1º:</strong> Professores do QPM ou QUP lotados na instituição (não excedentes).</li>
+                    <li><strong>2º:</strong> Efetivos excedentes lotados no município.</li>
+                    <li><strong>3º:</strong> Efetivos em suprimento no município (outros municípios).</li>
+                    <li><strong>4º:</strong> Contratados em Regime Especial (PSS).</li>
+                </ul>
+                <p><em>* Em caso de empate: Maior tempo de serviço, maior titulação e maior idade.</em></p>
+            </div>
+        </div>
+
+        <div class="accordion">
+            <div class="acc-header" onclick="toggleAcc(this)">
+                <span>Ajustes, Trocas e Prazos (Art. 43 a 45)</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="acc-body">
+                <p><span class="art-ref">Art. 44:</span> Ajustes de atribuição podem ocorrer até <strong>30/04/2026</strong>, desde que reduza o número de escolas para o professor.</p>
+                <p><span class="art-ref">Art. 45:</span> Trocas de turmas entre professores são permitidas por comum acordo, com anuência da Direção e do NRE.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="programas" class="tab-content">
+        <div class="accordion">
+            <div class="acc-header" onclick="toggleAcc(this)">
+                <span>Paraná Integral (Art. 25 a 27)</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="acc-body">
+                <p>As aulas da BNCC e IFA (Parte Diversificada) são atribuídas <strong>concomitantemente</strong>.</p>
+                <ul>
+                    <li><strong>Pedagogo:</strong> Preferencialmente 40 horas semanais.</li>
+                    <li><strong>AEEI:</strong> 40 horas semanais se houver demanda.</li>
+                    <li><strong>Coordenação de Área:</strong> Atribuição concomitante se houver professor para as aulas.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="accordion">
+            <div class="acc-header" onclick="toggleAcc(this)">
+                <span>Colégios Cívico-Militares (Art. 29)</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="acc-body">
+                <p><strong>Cidadania e Civismo:</strong> Deve ser o primeiro componente a ser distribuído na matriz curricular.</p>
+                <p>Consultar as páginas 12, 39 e 90 da Instrução Normativa n.º 001/2026 para detalhes de cada série.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="especificas" class="tab-content">
+        <div class="accordion">
+            <div class="acc-header" onclick="toggleAcc(this)">
+                <span>Educação Especial (Art. 33)</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="acc-body">
+                <p>Prioridade de atribuição para PAC, PAEE e SRM:</p>
+                <ol>
+                    <li>Efetivos que já atuam na modalidade (Lei 106/04).</li>
+                    <li>Efetivos com concurso específico em Ed. Especial.</li>
+                    <li>Efetivos com curso de especialização (mín. 360h).</li>
+                    <li>PSS com habilitação/especialização.</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="accordion">
+            <div class="acc-header" onclick="toggleAcc(this)">
+                <span>Língua Portuguesa e Matemática (Recomposição)</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="acc-body">
+                <p>Para o 9º ano EF e 3ª série EM, as aulas são indicadas para completar o cargo de professores já lotados.</p>
+                <p><strong>Recomposição:</strong> Exige que o professor esteja inscrito e permaneça no programa <strong>Formadores em Ação 2026</strong>.</p>
+            </div>
+        </div>
+
+        <div class="accordion">
+            <div class="acc-header" onclick="toggleAcc(this)">
+                <span>Ensino Religioso, Filosofia e Sociologia (Art. 52-53)</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="acc-body">
+                <p><strong>Religioso:</strong> Atribuído preferencialmente a efetivos excedentes das áreas de Humanas ou Pedagogia.</p>
+                <p><strong>Filosofia/Sociologia:</strong> Prioridade absoluta para concursados na própria disciplina; depois, licenciados plenos na área.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="tecnico" class="tab-content">
+        <div class="accordion">
+            <div class="acc-header" onclick="toggleAcc(this)">
+                <span>Cursos Técnicos e Formação Docente (Art. 58-62)</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="acc-body">
+                <ul>
+                    <li><strong>Limites:</strong> Máximo de 3 unidades curriculares por turma por professor.</li>
+                    <li><strong>Teoria e Prática:</strong> Devem ser atribuídas ao mesmo professor para garantir a integração.</li>
+                    <li><strong>Prática de Formação (Docentes):</strong> Na 3ª série, as aulas devem ser dadas por professores diferentes das séries anteriores.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="accordion">
+            <div class="acc-header" onclick="toggleAcc(this)">
+                <span>Robótica e AETE (Art. 63 e 83)</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="acc-body">
+                <p><strong>Robótica:</strong> Prioridade para quem concluiu as formações SEED/DTI ou Formadores em Ação (mínimo 24h).</p>
+                <p><strong>AETE (Turno Complementar):</strong></p>
+                <ul>
+                    <li>Cargo até 20h: Máximo 4 aulas extras.</li>
+                    <li>Cargo superior a 20h: Máximo 8 aulas extras.</li>
+                    <li>Total regência + AETE não pode passar de 40h semanais.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
 </div>
-
-<!-- REGRAS -->
-<div id="regras" class="tab-content">
-
-<div class="accordion">
-  <div class="acc-header" onclick="toggleAcc(this)">
-    <span>Ordem de Prioridade (Art. 13 ao 21)</span>
-    <i class="fas fa-chevron-down"></i>
-  </div>
-  <div class="acc-body">
-    <ul>
-      <li>Efetivos lotados na escola (não excedentes)</li>
-      <li>Efetivos excedentes no município</li>
-      <li>Efetivos em suprimento</li>
-      <li>PSS</li>
-    </ul>
-  </div>
-</div>
-
-</div>
-
-<!-- TEXTO LEGAL -->
-<div id="texto" class="tab-content">
-
-<div class="artigo">
-  <h4>Art. 3º — Definições</h4>
-  <p>Para os fins desta Resolução, considera-se:</p>
-  <p class="inciso">I – carga horária de aulas: aquela gerada por turma e matriz curricular;</p>
-  <p class="inciso">II – carga horária extraordinária: aulas atribuídas após o cumprimento do cargo;</p>
-  <p class="inciso">III – acréscimo de jornada: exercício de funções eventuais após o cumprimento do cargo.</p>
-</div>
-
-<div class="artigo">
-  <h4>Art. 44 — Ajustes de Atribuição</h4>
-  <p>Os ajustes de atribuição de aulas poderão ocorrer até <strong>30 de abril de 2026</strong>, desde que:</p>
-  <p class="inciso">I – reduzam o número de escolas do professor;</p>
-  <p class="inciso">II – não causem prejuízo pedagógico;</p>
-  <p class="inciso">III – tenham anuência da Direção e do NRE.</p>
-</div>
-
-</div>
-
-<!-- DOCUMENTOS -->
-<div id="docs" class="tab-content">
-  <p>
-    <a href="https://drive.google.com" target="_blank">
-      📄 Resolução nº 7.200/2025 – GS/SEED (PDF)
-    </a>
-  </p>
-</div>
-
-</div>
-
-<footer>
-  Material de apoio pedagógico • Não substitui a leitura da legislação oficial.
-</footer>
 
 <script>
-function openTab(evt, tab) {
-  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById(tab).classList.add('active');
-  evt.currentTarget.classList.add('active');
-}
+    // Função de Troca de Abas
+    function openTab(evt, tabName) {
+        let i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].classList.remove("active");
+        }
+        tablinks = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].classList.remove("active");
+        }
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
 
-function toggleAcc(el) {
-  const body = el.nextElementSibling;
-  body.style.display = body.style.display === 'block' ? 'none' : 'block';
-}
+    // Função de Acordeão Robusta
+    function toggleAcc(header) {
+        header.classList.toggle("active");
+        const body = header.nextElementSibling;
+        
+        if (body.style.display === "block") {
+            body.style.display = "none";
+        } else {
+            body.style.display = "block";
+        }
+    }
 </script>
 
 </body>
