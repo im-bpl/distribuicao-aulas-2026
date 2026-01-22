@@ -90,6 +90,78 @@
             header { flex-direction: column; text-align: center; gap: 15px; }
             .tabs-nav { flex-direction: column; }
         }
+        /* --- ESTILO DA EQUIPE RH --- */
+.team-bar {
+    background: white;
+    padding: 25px 20px;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+    margin-bottom: 30px;
+}
+
+.team-bar h3 {
+    margin: 0 0 25px 0;
+    color: #2c3e50;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+.team-bar h3 i {
+    color: #25D366; /* Verde do WhatsApp */
+    margin-right: 8px;
+    font-size: 1.4rem;
+    vertical-align: middle;
+}
+
+.team-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.team-member {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #555;
+    transition: transform 0.3s ease;
+    width: 90px;
+}
+
+.team-member:hover {
+    transform: translateY(-5px);
+}
+
+.team-member img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.team-member:hover img {
+    border-color: #25D366; /* Borda verde ao passar o mouse */
+    box-shadow: 0 6px 15px rgba(37, 211, 102, 0.3);
+}
+
+.team-member span {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #444;
+}
+
+.team-member:hover span {
+    color: #25D366;
+}
     </style>
 </head>
 <body>
@@ -130,7 +202,32 @@
 
 </div>
 </header>
+<div class="team-bar">
+    <h3><i class="fab fa-whatsapp"></i> Fale com a Equipe RH</h3>
+    <div class="team-grid">
+        
+        <a href="https://wa.me/5541999999999" target="_blank" class="team-member">
+            <img src="https://ui-avatars.com/api/?name=Mari&background=e74c3c&color=fff" alt="Mari">
+            <span>Mari</span>
+        </a>
 
+        <a href="https://wa.me/5541999999999" target="_blank" class="team-member">
+            <img src="https://ui-avatars.com/api/?name=Kelly&background=8e44ad&color=fff" alt="Kelly">
+            <span>Kelly</span>
+        </a>
+
+        <a href="https://wa.me/5541999999999" target="_blank" class="team-member">
+            <img src="https://ui-avatars.com/api/?name=João&background=2ecc71&color=fff" alt="João">
+            <span>João</span>
+        </a>
+
+        <a href="https://wa.me/5541999999999" target="_blank" class="team-member">
+            <img src="https://ui-avatars.com/api/?name=Ana&background=f1c40f&color=fff" alt="Ana">
+            <span>Ana</span>
+        </a>
+
+    </div>
+</div>
 <div class="container">
 
     <h2 style="border-bottom: 2px solid var(--accent); padding-bottom: 10px;">
