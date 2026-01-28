@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisa NRE Dois Vizinhos</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            /* PALETA NRE DOIS VIZINHOS */
+            --primary: #003366;       /* Azul Marinho Institucional */
+            --primary-light: #00509e; 
+            --accent: #FFC107;        /* Dourado */
+            --text: #2c3e50;
+            --error: #e74c3c;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #003366, #00509e);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Cartão Glassmorphism */
+        .survey-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            width: 100%;
+            max-width: 500px;
+            border-radius: 25px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        /* Logotipo NRE */
+        .nre-logo {
+            max-width: 220px;
+            margin: 0 auto 20px auto;
+            display: block;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        /* Barra de Progresso */
+        .progress-container {
+            position: absolute; top: 0; left: 0; width: 100%; height: 8px;
+            background: rgba(0,0,0,0.05); border-radius: 25px 25px 0 0; overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%; 
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 0%; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Passos */
+        .step { display: none; }
+        .step.active { display: block; animation: slideUp 0.5s ease-out forwards; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 { color: var(--primary); margin-bottom: 10px; font-size: 1.8rem; font-weight: 800; }
+        p { color: #555; margin-bottom: 30px; font-size: 1.1rem; line-height: 1.5; }
+        
+        .required-badge {
+            font-size: 0.8rem; background: #ffebee; color: var(--error);
+            padding: 4px 10px; border-radius: 12px; font-weight: bold;
+            display: inline-block; margin-bottom: 15px;
+        }
+
+        /* Estrelas */
+        .star-rating { font-size: 2.5rem; color: #dcdcdc; cursor: pointer; margin-bottom: 25px; display: flex; justify-content: center; gap: 8px; }
+        .star-rating i { transition: transform 0.2s, color 0.2s; }
+        .star-rating i:hover { transform: scale(1.2); color: var(--accent); }
+        .star-rating i.selected { color: var(--accent); text-shadow: 0 2px 5px rgba(255, 193, 7, 0.4); }
+
+        /* Botões de Opção */
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .option-btn {
+            background: #fff; border: 2px solid #f0f0f0; border-radius: 15px; padding: 18px 10px;
+            cursor: pointer; transition: all 0.2s; font-weight: 700; color: #555;
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+        .option-btn:hover { 
+            border-color: var(--primary); background: #f4f9ff; transform: translateY(-4px); 
+            box-shadow: 0 8px 20px rgba(0, 51, 102, 0.15); color: var(--primary);
+        }
+        .option-btn:active { transform: scale(0.96); }
+        .emoji { font-size: 1.8rem; }
+
+        /* Campo de Texto */
+        textarea {
+            width: 100%; padding: 15px; border-radius: 15px; border: 2px solid #e0e0e0;
+            font-family: inherit; font-size: 1rem; resize: none; height: 120px; margin-bottom: 10px;
+            box-sizing: border-box; transition: 0.3s; background: #fafafa;
+        }
+        textarea:focus { outline: none; border-color: var(--primary); background: white; }
+        textarea.error { border-color: var(--error); background: #fff5f5; }
+
+        /* Mensagem de Erro */
+        .error-msg { color: var(--error); font-size: 0.9rem; margin-bottom: 15px; display: none; font-weight: bold; }
+
+        /* Botão Principal */
+        .action-btn {
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            color: white; border: none; padding: 18px; border-radius: 50px;
+            font-size: 1.1rem; font-weight: bold; cursor: pointer; width: 100%;
+            transition: 0.3s; box-shadow: 0 10px 25px rgba(0, 51, 102, 0.3);
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .action-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(0, 51, 102, 0.4); filter: brightness(1.1); }
+        .action-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        /* Sucesso */
+        .success-icon {
+            font-size: 4rem; color: var(--accent); margin-bottom: 20px;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popIn { from { transform: scale(0); } to { transform: scale(1); } }
+
+        @media (max-width: 480px) {
+            .survey-card { padding: 30px 20px; min-height: 100vh; border-radius: 0; justify-content: flex-start; padding-top: 60px; }
+            .nre-logo { margin-bottom: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="survey-card">
+    <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+    
+    <img src="https://i.ibb.co/LKDTNgB/NRE-Dois-Vizinhos-horiz-principal.png" alt="NRE Dois Vizinhos" class="nre-logo">
+
+    <div class="step active" id="step1">
+        <h2>Sua opinião importa!</h2>
+        <p>Ajude o NRE Dois Vizinhos a melhorar o processo de <strong>Distribuição de Aulas 2026</strong>.</p>
+        <button class="action-btn" onclick="nextStep(2)">Começar Agora <i class="fas fa-arrow-right"></i></button>
+    </div>
+
+    <div class="step" id="step2">
+        <span class="required-badge">* Obrigatório</span>
+        <h2>Quem é você?</h2>
+        <p>Selecione sua função:</p>
+        <div class="options-grid">
+            <div class="option-btn" onclick="selectOption('funcao', 'Diretor(a)', 3)">
+                <span class="emoji">👔</span> Diretor(a)
+            </div>
+            <div class="option-btn" onclick="selectOption('funcao', 'Professor(a)', 3)">
+                <span class="emoji">👩‍🏫</span> Professor(a)
+            </div>
+            <div class="option-btn" onclick="selectOption('funcao', 'Documentador', 3)">
+                <span class="emoji">📂</span> Documentador
+            </div>
+            <div class="option-btn" onclick="selectOption('funcao', 'Equipe NRE', 3)">
+                <span class="emoji">🏢</span> Equipe NRE
+            </div>
+        </div>
+    </div>
+
+    <div class="step" id="step3">
+        <span class="required-badge">* Obrigatório</span>
+        <h2>Organização</h2>
+        <p>Como você avalia a organização geral?</p>
+        <div class="star-rating" id="stars-org">
+            <i class="fas fa-star" onclick="rate(1, 'org')"></i>
+            <i class="fas fa-star" onclick="rate(2, 'org')"></i>
+            <i class="fas fa-star" onclick="rate(3, 'org')"></i>
+            <i class="fas fa-star" onclick="rate(4, 'org')"></i>
+            <i class="fas fa-star" onclick="rate(5, 'org')"></i>
+        </div>
+    </div>
+
+    <div class="step" id="step4">
+        <span class="required-badge">* Obrigatório</span>
+        <h2>Mapa de Aulas Digital</h2>
+        <p>A visualização digital ajudou você?</p>
+        <div class="options-grid">
+            <div class="option-btn" onclick="selectOption('mapa', 'Excelente! 🤩', 5)">
+                <span class="emoji">🤩</span> Excelente!
+            </div>
+            <div class="option-btn" onclick="selectOption('mapa', 'Ajudou 👍', 5)">
+                <span class="emoji">👍</span> Ajudou
+            </div>
+            <div class="option-btn" onclick="selectOption('mapa', 'Indiferente 😐', 5)">
+                <span class="emoji">😐</span> Indiferente
+            </div>
+            <div class="option-btn" onclick="selectOption('mapa', 'Confuso 😵‍💫', 5)">
+                <span class="emoji">😵‍💫</span> Confuso
+            </div>
+        </div>
+    </div>
+
+    <div class="step" id="step5">
+        <span class="required-badge">* Obrigatório</span>
+        <h2>Agilidade</h2>
+        <p>Como foi a fluidez do processo?</p>
+        <div class="options-grid">
+            <div class="option-btn" onclick="selectOption('fluidez', 'Lento 🐢', 6)">
+                <span class="emoji">🐢</span> Lento
+            </div>
+            <div class="option-btn" onclick="selectOption('fluidez', 'Normal 🚶', 6)">
+                <span class="emoji">🚶</span> Normal
+            </div>
+            <div class="option-btn" onclick="selectOption('fluidez', 'Rápido 🏃', 6)">
+                <span class="emoji">🏃</span> Rápido
+            </div>
+            <div class="option-btn" onclick="selectOption('fluidez', 'Muito Ágil ⚡', 6)">
+                <span class="emoji">⚡</span> Muito Ágil
+            </div>
+        </div>
+    </div>
+
+    <div class="step" id="step6">
+        <span class="required-badge">* Obrigatório</span>
+        <h2>Feedback</h2>
+        <p>Deixe sua sugestão ou crítica para 2027:</p>
+        <textarea id="feedbackText" placeholder="Escreva aqui..." oninput="clearError()"></textarea>
+        <div class="error-msg" id="errorMsg">⚠️ Por favor, escreva algo para finalizar.</div>
+        <button class="action-btn" id="btnSubmit" onclick="sendData()">Enviar Resposta <i class="fas fa-paper-plane"></i></button>
+    </div>
+
+    <div class="step" id="step7">
+        <i class="fas fa-check-circle success-icon"></i>
+        <h2>Obrigado!</h2>
+        <p>Sua resposta foi registrada com sucesso.</p>
+        <button class="action-btn" onclick="location.reload()">Nova Resposta</button>
+    </div>
+</div>
+
+<script>
+    // SEU LINK DO GOOGLE SCRIPT (JÁ CONFIGURADO)
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzBLtxg33iK0HJkj48JPBuEpgopy9MAdfMBqJiReJS55Nxz1stMwzTr1RU-1E2E9sXT_g/exec"; 
+
+    let answers = {
+        funcao: "",
+        org: 0,
+        mapa: "",
+        fluidez: "",
+        feedback: ""
+    };
+
+    function nextStep(n) {
+        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+        document.getElementById('step' + n).classList.add('active');
+        document.getElementById('progressBar').style.width = ((n - 1) / 6 * 100) + '%';
+    }
+
+    function rate(star, cat) {
+        answers[cat] = star;
+        let stars = document.querySelectorAll('#stars-' + cat + ' i');
+        stars.forEach((s, i) => i < star ? s.classList.add('selected') : s.classList.remove('selected'));
+        setTimeout(() => nextStep(4), 400);
+    }
+
+    function selectOption(cat, val, next) {
+        answers[cat] = val;
+        nextStep(next);
+    }
+
+    function clearError() {
+        document.getElementById('feedbackText').classList.remove('error');
+        document.getElementById('errorMsg').style.display = 'none';
+    }
+
+    function sendData() {
+        const text = document.getElementById('feedbackText').value.trim();
+        
+        // VALIDAÇÃO DE OBRIGATORIEDADE
+        if (!text) {
+            document.getElementById('feedbackText').classList.add('error');
+            document.getElementById('errorMsg').style.display = 'block';
+            return; // Para tudo e não envia
+        }
+
+        answers.feedback = text;
+        const btn = document.getElementById('btnSubmit');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+        btn.disabled = true;
+
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors', 
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(answers)
+        })
+        .then(() => {
+            nextStep(7);
+            document.getElementById('progressBar').style.width = '100%';
+        })
+        .catch(error => {
+            alert("Erro ao enviar. Verifique sua conexão.");
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        });
+    }
+</script>
+
+</body>
+</html>
